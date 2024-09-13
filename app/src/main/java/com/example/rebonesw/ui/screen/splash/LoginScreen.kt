@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,9 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.rebonesw.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(){
     var name by remember { mutableStateOf("") }
@@ -60,6 +65,15 @@ fun LoginScreen(){
                         text = "이름"
                     )
                     TextField(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            containerColor = Color.Transparent,
+                        ),
                         value = name,
                         onValueChange = { inputName -> name = inputName }
                     )
@@ -70,6 +84,15 @@ fun LoginScreen(){
                         text = "나이"
                     )
                     TextField(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            containerColor = Color.Transparent,
+                        ),
                         value = age,
                         onValueChange = { inputAge ->
                             // 숫자만 입력받기 위한 로직
@@ -77,9 +100,10 @@ fun LoginScreen(){
                                 age = inputAge
                             }
                         },
-                        modifier = Modifier
-                            .background(Color.White, shape = RoundedCornerShape(8.dp)) // 배경색을 흰색으로 설정
-                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)) // 둥근 모서리의 검정 테두리 추가
+
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number, // 숫자 키보드 타입 설정
+                        ),
                     )
 
                     // 전화번호 입력 필드 (숫자만 입력받도록 처리)
@@ -88,6 +112,15 @@ fun LoginScreen(){
                         text = "전화번호"
                     )
                     TextField(
+                        modifier = Modifier
+                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            containerColor = Color.Transparent,
+                        ),
                         value = connectNumber,
                         onValueChange = { inputNumber ->
                             // 숫자만 입력받기 위한 로직
@@ -95,19 +128,25 @@ fun LoginScreen(){
                                 connectNumber = inputNumber
                             }
                         },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number, // 숫자 키보드 타입 설정
+                        ),
                     )
 
                     Button(
                         onClick = { /* 클릭 동작 */ },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFFFA500), // 주황색 (오렌지색)
+                            containerColor = Color(0xFFF15B5B), // 피그마에서 색상 찾음
                             contentColor = Color.White // 하얀색 텍스트
                         ),
                         modifier = Modifier
                             .padding(top = 8.dp,bottom = 8.dp)
                             .align(Alignment.CenterHorizontally) // 버튼 수평 중앙 정렬
                     ) {
-                        Text("완료 하기")
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 32.dp, end = 32.dp),
+                            text = "완료 하기")
                     }
                 }
             } //Surface
