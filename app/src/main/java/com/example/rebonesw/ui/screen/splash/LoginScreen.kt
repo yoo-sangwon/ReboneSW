@@ -1,8 +1,11 @@
 package com.example.rebonesw.ui.screen.splash
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +28,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,10 +41,13 @@ fun LoginScreen(){
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var connectNumber by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current //Compose에서 포커스를 관리하는 객체
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .clickable { focusManager.clearFocus() },
         contentAlignment = Alignment.Center
     ){
         Column(
@@ -134,13 +142,21 @@ fun LoginScreen(){
                     )
 
                     Button(
-                        onClick = { /* 클릭 동작 */ },
+                        onClick = {
+                            // 모든 값이 비어있지 않을 때 Activity 이동
+                            if (name.isNotBlank() && age.isNotBlank() && connectNumber.isNotBlank()) {
+                                Toast.makeText(context, "등록 완료", Toast.LENGTH_SHORT).show()
+                            } else {
+                                // 값이 비어있는 경우 처리 (예: 토스트 메시지)
+                                 Toast.makeText(context, "모든 필드를 채워주세요.", Toast.LENGTH_SHORT).show()
+                            }
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFFF15B5B), // 피그마에서 색상 찾음
                             contentColor = Color.White // 하얀색 텍스트
                         ),
                         modifier = Modifier
-                            .padding(top = 8.dp,bottom = 8.dp)
+                            .padding(top = 16.dp,bottom = 16.dp)
                             .align(Alignment.CenterHorizontally) // 버튼 수평 중앙 정렬
                     ) {
                         Text(
