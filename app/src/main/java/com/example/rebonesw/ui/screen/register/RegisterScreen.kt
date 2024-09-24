@@ -72,15 +72,17 @@ fun RegisterScreen(){
                     TextField(
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
-
-//                        colors = TextFieldDefaults.text(
-//                            focusedIndicatorColor = Color.Transparent,
-//                            unfocusedIndicatorColor = Color.Transparent,
-//                            disabledIndicatorColor = Color.Transparent,
-//                            containerColor = Color.Transparent,
-//                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent
+                        ),
                         value = name,
-                        onValueChange = { inputName -> name = inputName }
+                        onValueChange = { inputName -> name = inputName },
+
                     )
 
                     // 나이 입력 필드 (숫자만 입력받도록 처리)
@@ -91,13 +93,14 @@ fun RegisterScreen(){
                     TextField(
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
-
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            focusedIndicatorColor = Color.Transparent,
-//                            unfocusedIndicatorColor = Color.Transparent,
-//                            disabledIndicatorColor = Color.Transparent,
-//                            containerColor = Color.Transparent,
-//                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent
+                        ),
                         value = age,
                         onValueChange = { inputAge ->
                             // 숫자만 입력받기 위한 로직
@@ -105,7 +108,6 @@ fun RegisterScreen(){
                                 age = inputAge
                             }
                         },
-
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number, // 숫자 키보드 타입 설정
                         ),
@@ -119,13 +121,14 @@ fun RegisterScreen(){
                     TextField(
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
-
-//                        colors = TextFieldDefaults.textFieldColors(
-//                            focusedIndicatorColor = Color.Transparent,
-//                            unfocusedIndicatorColor = Color.Transparent,
-//                            disabledIndicatorColor = Color.Transparent,
-//                            containerColor = Color.Transparent,
-//                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent
+                        ),
                         value = connectNumber,
                         onValueChange = { inputNumber ->
                             // 숫자만 입력받기 위한 로직
