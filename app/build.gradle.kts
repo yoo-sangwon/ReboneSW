@@ -85,4 +85,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    //runtime
+    implementation(libs.androidx.compose.runtime)
+
 }

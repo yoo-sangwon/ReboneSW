@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,6 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -46,6 +50,9 @@ fun RegisterScreen(
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current //Compose에서 포커스를 관리하는 객체
 
+    val ageTextFieldRequester = remember { FocusRequester() }
+    val connectNumberTextFieldRequester = remember { FocusRequester() }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,9 +64,10 @@ fun RegisterScreen(
         ) {
             Image(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp), // 이미지 수평 중앙 정렬
+                    .padding(bottom = 32.dp) // 이미지 수평 중앙 정렬
+                    ,
                 painter = painterResource(id = R.drawable.rebone_logo),
-                contentDescription = null
+                contentDescription = null,
             )
             Surface(
             modifier = Modifier.padding(bottom = 8.dp , start = 1.dp , end = 1.dp),
@@ -87,7 +95,12 @@ fun RegisterScreen(
                         ),
                         value = name,
                         onValueChange = { inputName -> name = inputName },
-
+                        singleLine = true,
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                ageTextFieldRequester.requestFocus()
+                            }
+                        )
                     )
 
                     // 나이 입력 필드 (숫자만 입력받도록 처리)
@@ -97,7 +110,8 @@ fun RegisterScreen(
                     )
                     TextField(
                         modifier = Modifier
-                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
+                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))  // 둥근 모서리의 검정 테두리 추가
+                            .focusRequester(ageTextFieldRequester),
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
@@ -116,6 +130,12 @@ fun RegisterScreen(
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number, // 숫자 키보드 타입 설정
                         ),
+                        singleLine = true,
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                connectNumberTextFieldRequester.requestFocus()
+                            }
+                        )
                     )
 
                     // 전화번호 입력 필드 (숫자만 입력받도록 처리)
@@ -125,7 +145,8 @@ fun RegisterScreen(
                     )
                     TextField(
                         modifier = Modifier
-                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
+                            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)) // 둥근 모서리의 검정 테두리 추가
+                            .focusRequester(connectNumberTextFieldRequester),
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
@@ -144,6 +165,12 @@ fun RegisterScreen(
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number, // 숫자 키보드 타입 설정
                         ),
+                        singleLine = true,
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
+                            }
+                        )
                     )
 
                     Button(
