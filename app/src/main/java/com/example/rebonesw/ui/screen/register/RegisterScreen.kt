@@ -31,10 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.rebonesw.R
+import com.example.rebonesw.data.RegisterData
+import com.example.rebonesw.viewmodels.RegisterViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(){
+fun RegisterScreen(
+    onRegister: (RegisterData) -> Unit,
+    vm: RegisterViewModel
+){
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var connectNumber by remember { mutableStateOf("") }
@@ -145,6 +150,15 @@ fun RegisterScreen(){
                         onClick = {
                             // 모든 값이 비어있지 않을 때 Activity 이동
                             if (name.isNotBlank() && age.isNotBlank() && connectNumber.isNotBlank()) {
+
+                                var registerData = RegisterData(
+                                    userId = 0,
+                                    userName = name,
+                                    userAge = age,
+                                    userPhoneNumber = connectNumber,
+                                    userState = 0 ,
+                                )
+                                onRegister(registerData)
                                 Toast.makeText(context, "등록 완료", Toast.LENGTH_SHORT).show()
                             } else {
                                 // 값이 비어있는 경우 처리 (예: 토스트 메시지)
