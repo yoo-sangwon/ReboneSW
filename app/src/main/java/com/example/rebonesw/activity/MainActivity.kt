@@ -1,4 +1,4 @@
-package com.example.rebonesw
+package com.example.rebonesw.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

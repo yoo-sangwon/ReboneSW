@@ -1,15 +1,12 @@
-package com.example.rebonesw.ui.screen.splash
+package com.example.rebonesw.ui.screen.register
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,7 +34,7 @@ import com.example.rebonesw.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(){
+fun RegisterScreen(){
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var connectNumber by remember { mutableStateOf("") }
@@ -76,12 +73,12 @@ fun LoginScreen(){
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
 
-                        colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            containerColor = Color.Transparent,
-                        ),
+//                        colors = TextFieldDefaults.text(
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            containerColor = Color.Transparent,
+//                        ),
                         value = name,
                         onValueChange = { inputName -> name = inputName }
                     )
@@ -95,12 +92,12 @@ fun LoginScreen(){
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
 
-                        colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            containerColor = Color.Transparent,
-                        ),
+//                        colors = TextFieldDefaults.textFieldColors(
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            containerColor = Color.Transparent,
+//                        ),
                         value = age,
                         onValueChange = { inputAge ->
                             // 숫자만 입력받기 위한 로직
@@ -123,12 +120,12 @@ fun LoginScreen(){
                         modifier = Modifier
                             .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)), // 둥근 모서리의 검정 테두리 추가
 
-                        colors = TextFieldDefaults.textFieldColors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            containerColor = Color.Transparent,
-                        ),
+//                        colors = TextFieldDefaults.textFieldColors(
+//                            focusedIndicatorColor = Color.Transparent,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            disabledIndicatorColor = Color.Transparent,
+//                            containerColor = Color.Transparent,
+//                        ),
                         value = connectNumber,
                         onValueChange = { inputNumber ->
                             // 숫자만 입력받기 위한 로직
