@@ -45,7 +45,7 @@ class RegisterActivity: ComponentActivity() {
                         LaunchedEffect(Unit) {
                             // 2초 대기 후 메인 페이지로 이동
                             delay(2000)
-                            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                            startActivity(Intent(this@RegisterActivity, OnboardingActivity::class.java))
                             finish() // 현재 액티비티 종료
                         }
                     }
