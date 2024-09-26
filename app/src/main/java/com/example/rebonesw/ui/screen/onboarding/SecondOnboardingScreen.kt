@@ -15,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rebonesw.R
@@ -54,10 +57,14 @@ fun SecondOnboardingScreen() {
                 Spacer( modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "근감소증은 진행성 질환으로, 초기에는 증상이 미미할 수 있지만, 시간이 지남에 따라 근력과 근육량이 급격히 감소합니다. \n" +
-                            "\n" +
-                            "따라서 근감소증의 효과적인 관리를 위해서는 \n" +
-                            "지속적인 추적 관찰이 필수적입니다.",
+                    text = buildAnnotatedString {
+                        append("근감소증은 진행성 질환으로, 초기에는 증상이 미미할 수 있지만, ")
+                        withStyle(style = SpanStyle(color = Color.Red, fontWeight = FontWeight.Bold)) {
+                            append("시간이 지남에 따라 근력과 근육량이 급격히 감소합니다.\n\n")
+                        }
+                        append("따라서 근감소증의 효과적인 관리를 위해서는 \n")
+                        append("지속적인 추적 관찰이 필수적입니다.")
+                    },
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = Color.Gray

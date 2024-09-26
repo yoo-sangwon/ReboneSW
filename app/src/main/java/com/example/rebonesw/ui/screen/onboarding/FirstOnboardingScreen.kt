@@ -15,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rebonesw.R
@@ -55,13 +58,23 @@ fun FirstOnboardingScreen() {
                 Spacer( modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "근감소증은 나이가 들면서 근육량과 근력이 감소하는 상태를 말합니다.\n" +
-                            "이는 일상생활의 활동 능력을 저하시킬 수 있으며, 낙상 등의 위험을 증가시킬 수 있습니다.\n" +
-                            "근감소증의 조기 발견은 근감소증의 진행을 늦추고 건강한 삶을 유지하는 데 중요합니다.",
+                    text = buildAnnotatedString {
+                        append("근감소증은 ")
+                        withStyle(style = SpanStyle(color = Color.Red, fontWeight = FontWeight.Bold)) {
+                            append("나이가 들면서 근육량과 근력이 감소하는 상태를 말합니다.")
+                        }
+                        append("\n이는 일상생활의 활동 능력을 저하시킬 수 있으며, 낙상 등의 위험을 증가시킬 수 있습니다.\n")
+                        append("근감소증의 ")
+                        withStyle(style = SpanStyle(color = Color.Red, fontWeight = FontWeight.Bold)) {
+                            append("조기 발견")
+                        }
+                        append("은 근감소증의 진행을 늦추고 건강한 삶을 유지하는 데 중요합니다.")
+                    },
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = Color.Gray
                 )
+
             }
         } //Column
     } //Box

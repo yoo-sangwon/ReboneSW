@@ -114,7 +114,7 @@ fun PageIndicator(currentPage: Int, totalPages: Int) {
         repeat(totalPages) { pageIndex ->
             Box(
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(16.dp)
                     .padding(4.dp)
                     .clip(CircleShape)
                     .background(if (pageIndex == currentPage) Color.Red else Color.LightGray)
