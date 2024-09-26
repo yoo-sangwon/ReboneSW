@@ -1,5 +1,6 @@
 package com.example.rebonesw.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,9 +34,16 @@ class OnboardingActivity: ComponentActivity() {
 //                    }
 //                }
 
-                OnboardingScreen()
+                OnboardingScreen(
+                    skipScreenTestInfo = skipScreenTestInfo
+                )
 
             }//ReboneSWTheme
         } //setContent
     } //onCreate
+
+    private val skipScreenTestInfo: () -> Unit = {
+        startActivity(Intent(this@OnboardingActivity, ScreeningTestActivity::class.java))
+        finish()
+    }
 } //class OnboardingActivity

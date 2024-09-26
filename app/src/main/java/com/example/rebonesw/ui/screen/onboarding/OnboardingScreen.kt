@@ -1,5 +1,6 @@
 package com.example.rebonesw.ui.screen.onboarding
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,12 +24,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import com.example.rebonesw.activity.OnboardingActivity
+import com.example.rebonesw.activity.ScreeningTestActivity
 
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    skipScreenTestInfo: () -> Unit
+) {
     var currentScreen by remember { mutableStateOf(1) }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -61,7 +68,9 @@ fun OnboardingScreen() {
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Button(
-                        onClick = { /* 생략 */ },
+                        onClick = {
+                            skipScreenTestInfo()
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
                             contentColor = Color.Black
@@ -91,7 +100,9 @@ fun OnboardingScreen() {
             } else {
                 // 마지막 페이지에서는 하단 버튼이 확인 으로 노출
                 Button(
-                    onClick = { /* 시작하기 동작 */ },
+                    onClick = {
+                        skipScreenTestInfo()
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFF15B5B),
                     ),
