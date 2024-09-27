@@ -23,5 +23,16 @@ class ScreeningTestViewModel @Inject constructor(
         screeningTestAnswersInfo.update(screeningTestAnswersData)
     }
 
+    private val _screeningTestAnswersData = MutableStateFlow(ScreeningTestAnswersData())
+    val screeningTestAnswersData get() = _screeningTestAnswersData
+    fun getScreeningTestAnswersData(data: ScreeningTestAnswersData){
+        _screeningTestAnswersData.value = data
+    }
+    init {
+        screeningTestAnswersInfo.data.value?.let {
+            _screeningTestAnswersData.value = it
+        }
+    }
+
 
 } //class ScreeningTestViewModel

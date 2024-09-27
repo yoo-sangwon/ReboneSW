@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,7 +58,8 @@ fun ScreeningTestInfoScreen(
     ) {
     val pagerState = rememberPagerState(pageCount = { 6 }, initialPage = 0)
     val scope = rememberCoroutineScope()
-    var answers by remember { mutableStateOf(ScreeningTestAnswersData()) }
+//    var answers by remember { mutableStateOf(ScreeningTestAnswersData()) }
+    val answers by vm.screeningTestAnswersData.collectAsState()
 
     HorizontalPager(
         state = pagerState,
@@ -84,7 +86,8 @@ fun ScreeningTestInfoScreen(
                     }
                 },
                 answers = answers,
-                onUpdateAnswers = { updatedAnswers -> answers = updatedAnswers },
+                onUpdateAnswers = vm::getScreeningTestAnswersData,
+//                onUpdateAnswers = { updatedAnswers -> answers = updatedAnswers },
                 vm = vm,
                 completeAnswers = completeAnswers
             )
@@ -211,8 +214,6 @@ fun ScreeningTestScreen(
                     selectedOption = selectedOption,
                     onOptionSelected = {
                         selectedOption = it
-                        Log.d("selectedOption", "selectedOption" + selectedOption.toString())
-                        Log.d("selectedOption", "page" + page.toString())
                         val a = when(page){
                             1 -> answers.copy(stAnswers01 = it)
                             2 -> answers.copy(stAnswers02 = it)
@@ -221,6 +222,9 @@ fun ScreeningTestScreen(
                             5 -> answers.copy(stAnswers05 = it)
                             else -> answers
                         }
+                        Log.d("selectedOption", "selectedOption : " + selectedOption.toString())
+                        Log.d("selectedOption", "page : " + page.toString())
+                        Log.d("selectedOption", "Save Answers : " + answers)
                         onUpdateAnswers(a)
                         onNextPage()
                     },
