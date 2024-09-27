@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,7 +53,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ScreeningTestInfoScreen(vm: ScreeningTestViewModel) {
+fun ScreeningTestInfoScreen(
+    vm: ScreeningTestViewModel,
+    completeAnswers: () -> Unit
+    ) {
     val pagerState = rememberPagerState(pageCount = { 6 }, initialPage = 0)
     val scope = rememberCoroutineScope()
     var answers by remember { mutableStateOf(ScreeningTestAnswersData()) }
@@ -83,7 +87,8 @@ fun ScreeningTestInfoScreen(vm: ScreeningTestViewModel) {
                 },
                 answers = answers,
                 onUpdateAnswers = { updatedAnswers -> answers = updatedAnswers },
-                vm = vm
+                vm = vm,
+                completeAnswers = completeAnswers
             )
         }
     }
@@ -154,9 +159,11 @@ fun ScreeningTestScreen(
     onBackPage: () -> Unit,
     answers : ScreeningTestAnswersData,
     onUpdateAnswers: (ScreeningTestAnswersData) -> Unit, // 상위 컴포저블로 answers 업데이트 전달
-    vm: ScreeningTestViewModel
+    vm: ScreeningTestViewModel,
+    completeAnswers: () -> Unit
 ){
     var selectedOption by remember { mutableStateOf<Int?>(null) }
+    val context = LocalContext.current
     val questions = listOf(
         "1. 무게 4.5kg을 들어서 나르는 것이 얼마나 어려운가요?",
         "2. 방안 한 쪽 끝에서 다른 쪽 끝까지 걷는 것이 얼마나 어려운가요?",
@@ -226,8 +233,12 @@ fun ScreeningTestScreen(
                 if (isLastPage) {
                     Button(
                         onClick = { /*제출하기 버튼*/
-                            Log.d("selectedOption", "answers $answers")
-                            vm?.updateScreeningTestAnswers(answers)
+                            if (answers.stAnswers05 == -1){
+                                Toast.makeText(context, "모든 항목에 답변해주세요.", Toast.LENGTH_SHORT).show()
+                            }else {
+                                vm.updateScreeningTestAnswers(answers)
+                                completeAnswers()
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth(0.6f)
@@ -250,7 +261,7 @@ fun ScreeningTestScreen(
 fun RadioButtonGroup(
     options: List<String>,
     selectedOption: Int?,
-    onOptionSelected: (Int) -> Unit
+    onOptionSelected: (Int) -> Unit,
 ) {
     Column {
         options.forEachIndexed { index, option ->
@@ -259,6 +270,7 @@ fun RadioButtonGroup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
+                    .clickable { onOptionSelected(index) }
             ) {
                 RadioButton(
                     selected = selectedOption == index,

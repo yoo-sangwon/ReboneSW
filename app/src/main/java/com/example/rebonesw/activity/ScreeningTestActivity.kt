@@ -1,14 +1,12 @@
 package com.example.rebonesw.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import com.example.rebonesw.data.ScreeningTestAnswersData
 import com.example.rebonesw.data.navigation.ScreeningTestDestination
 import com.example.rebonesw.ui.screen.screeningtest.ScreeningTestInfoScreen
 import com.example.rebonesw.ui.screen.screeningtest.ScreeningTestScreen01
@@ -33,7 +31,10 @@ class ScreeningTestActivity: ComponentActivity() {
 
                 when (navDestinationProperties){
                     ScreeningTestDestination.infoScreen -> {
-                        vm.let { ScreeningTestInfoScreen(vm) }
+                        vm.let { ScreeningTestInfoScreen(
+                            vm = vm,
+                            completeAnswers = CompleteScreenTest
+                        ) }
                     }
                     ScreeningTestDestination.SurveyScreen01 ->{
                         ScreeningTestScreen01(
@@ -67,6 +68,11 @@ class ScreeningTestActivity: ComponentActivity() {
 
     private val moveScreen: ( navdestination: ScreeningTestDestination ) -> Unit = {
         vm.updateNavDestination(it)
+    }
+
+    private val CompleteScreenTest: () -> Unit = {
+        startActivity(Intent(this@ScreeningTestActivity, MainActivity::class.java))
+        finish()
     }
 
 } //ScreeningTestActivity
