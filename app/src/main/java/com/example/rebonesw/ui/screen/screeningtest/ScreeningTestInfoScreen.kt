@@ -1,6 +1,5 @@
 package com.example.rebonesw.ui.screen.screeningtest
 
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -47,7 +46,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rebonesw.data.ScreeningTestAnswersData
-import com.example.rebonesw.data.navigation.ScreeningTestDestination
 import com.example.rebonesw.viewmodels.ScreeningTestViewModel
 import kotlinx.coroutines.launch
 

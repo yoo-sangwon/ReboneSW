@@ -16,10 +16,7 @@ import com.example.rebonesw.ui.screen.register.RegisterScreen
 import com.example.rebonesw.ui.theme.ReboneSWTheme
 import com.example.rebonesw.viewmodels.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterActivity: ComponentActivity() {

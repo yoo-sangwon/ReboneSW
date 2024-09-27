@@ -2,6 +2,7 @@ package com.example.rebonesw.ui.screen.screeningtest
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.rebonesw.data.navigation.ScreeningTestDestination
-import androidx.compose.foundation.layout.Row as Row
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
