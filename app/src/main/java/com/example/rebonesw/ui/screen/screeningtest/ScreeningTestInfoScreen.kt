@@ -210,7 +210,11 @@ fun ScreeningTestScreen(
                 )
 
                 RadioButtonGroup(
-                    options = listOf("전혀 어렵지 않다.", "조금 어렵다.", "매우 어렵다/할 수 없다."),
+                    options = if (page == 5) {
+                        listOf("전혀 없다", "1~3회", "4회 이상")
+                    } else {
+                        listOf("전혀 어렵지 않다.", "조금 어렵다.", "매우 어렵다/할 수 없다.")
+                    },
                     selectedOption = selectedOption,
                     onOptionSelected = {
                         selectedOption = it

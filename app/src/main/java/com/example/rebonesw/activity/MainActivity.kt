@@ -7,26 +7,47 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.rebonesw.ui.screen.main.MainScreen
 import com.example.rebonesw.ui.theme.ReboneSWTheme
 import com.example.rebonesw.viewmodels.MainViewMdoel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val vm: MainViewMdoel by viewModels()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ReboneSWTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Main",
-                        modifier = Modifier.padding(innerPadding)
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopAppBar(
+                            title = { Text("") },
+                            navigationIcon = {
+                                IconButton(onClick = { /* 메뉴 열기 동작 */ }) {
+                                    Icon(Icons.Default.Menu, contentDescription = "메뉴")
+                                }
+                            }
+                        )
+                    },
+                    ){ innerPadding ->
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        vm = vm
                     )
                 } //Scaffold
             } // ReboneSWTheme
@@ -36,10 +57,4 @@ class MainActivity : ComponentActivity() {
 
 } //class MainActivity
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+
