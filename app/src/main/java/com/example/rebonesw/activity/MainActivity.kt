@@ -1,5 +1,6 @@
 package com.example.rebonesw.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.rebonesw.ui.screen.main.MainScreen
 import com.example.rebonesw.ui.theme.ReboneSWTheme
@@ -33,6 +36,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ReboneSWTheme {
+                val sumsAnswersData by vm.screeningTestAnswersDataFlow.collectAsState()
+
+
                 Scaffold(modifier = Modifier.fillMaxSize(),
                     topBar = {
                         TopAppBar(
@@ -47,7 +53,11 @@ class MainActivity : ComponentActivity() {
                     ){ innerPadding ->
                     MainScreen(
                         modifier = Modifier.padding(innerPadding),
-                        vm = vm
+                        vm = vm,
+                        sumsAnswersData = sumsAnswersData.stAnswers01 + sumsAnswersData.stAnswers02 + sumsAnswersData.stAnswers03 + sumsAnswersData.stAnswers04 + sumsAnswersData.stAnswers05,
+                        moveScreenTestInfo = {
+                            startActivity(Intent(this, ScreeningTestActivity::class.java))
+                        }
                     )
                 } //Scaffold
             } // ReboneSWTheme

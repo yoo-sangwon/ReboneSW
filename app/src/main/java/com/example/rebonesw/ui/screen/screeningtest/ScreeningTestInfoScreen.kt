@@ -50,7 +50,7 @@ import com.example.rebonesw.data.ScreeningTestAnswersData
 import com.example.rebonesw.viewmodels.ScreeningTestViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ScreeningTestInfoScreen(
     vm: ScreeningTestViewModel,
@@ -61,38 +61,70 @@ fun ScreeningTestInfoScreen(
 //    var answers by remember { mutableStateOf(ScreeningTestAnswersData()) }
     val answers by vm.screeningTestAnswersData.collectAsState()
 
-    HorizontalPager(
-        state = pagerState,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        when (it) {
-            0 -> InfoTextScreen(
-                onStartClicked = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(1) // 시작하기 버튼 누르면 첫 번째 질문 페이지로 이동
-                    }
-                })
-            in 1..5 -> ScreeningTestScreen(
-                page = it,
-                isLastPage = it == 5,
-                onNextPage = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(it + 1) // 다음 페이지로 이동
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "SARC-F")
                     }
                 },
-                onBackPage = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(it - 1) // 이전 페이지로 이동
+                navigationIcon = {
+                    if (pagerState.currentPage > 0) { // 첫 페이지가 아니면 뒤로가기 버튼 표시
+                        IconButton(onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage - 1) // 이전 페이지로 이동
+                            }
+                        }) {
+                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                        }
                     }
-                },
-                answers = answers,
-                onUpdateAnswers = vm::getScreeningTestAnswersData,
-//                onUpdateAnswers = { updatedAnswers -> answers = updatedAnswers },
-                vm = vm,
-                completeAnswers = completeAnswers
+                }
             )
+        },
+        content = { innerPadding ->
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = false,
+            ) {
+                when (it) {
+                    0 -> InfoTextScreen(
+                        onStartClicked = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(1) // 시작하기 버튼 누르면 첫 번째 질문 페이지로 이동
+                            }
+                        })
+                    in 1..5 -> ScreeningTestScreen(
+                        page = it,
+                        isLastPage = it == 5,
+                        onNextPage = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(it + 1) // 다음 페이지로 이동
+                            }
+                        },
+                        onBackPage = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(it - 1) // 이전 페이지로 이동
+                            }
+                        },
+                        answers = answers,
+                        onUpdateAnswers = vm::getScreeningTestAnswersData,
+//                onUpdateAnswers = { updatedAnswers -> answers = updatedAnswers },
+                        vm = vm,
+                        completeAnswers = completeAnswers,
+                        innerPadding = innerPadding
+                    )
+                }
+            } //HorizontalPager
         }
-    }
+    ) //Scaffold
+
 } //fun ScreeningTestInfoScreen
 
 @Composable
@@ -161,7 +193,8 @@ fun ScreeningTestScreen(
     answers : ScreeningTestAnswersData,
     onUpdateAnswers: (ScreeningTestAnswersData) -> Unit, // 상위 컴포저블로 answers 업데이트 전달
     vm: ScreeningTestViewModel,
-    completeAnswers: () -> Unit
+    completeAnswers: () -> Unit,
+    innerPadding: androidx.compose.foundation.layout.PaddingValues
 ){
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     val context = LocalContext.current
@@ -170,97 +203,84 @@ fun ScreeningTestScreen(
         "2. 방안 한 쪽 끝에서 다른 쪽 끝까지 걷는 것이 얼마나 어려운가요?",
         "3. 의자에서 일어나 침대로, 혹은 침대에서 일어나 의자로 이동하는 것이 얼마나 어려운가요?",
         "4. 10개의 계단을 쉬지 않고 오르는 것이 얼마나 어려운가요? ",
-        "5. 지난 1년 동안 몇 번이나 넘어지셨나요? (넘어지지 않도록 조심하면서 일상생활을 하는 것이 어려운가요?)"
+        "5. 지난 1년 동안 몇 번이나 넘어지셨나요?"
     )
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "SARC-F")
+
+    val answersList = listOf(
+        answers.stAnswers01,
+        answers.stAnswers02,
+        answers.stAnswers03,
+        answers.stAnswers04,
+        answers.stAnswers05,
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = questions[page - 1],
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp)
+        )
+
+        RadioButtonGroup(
+            options = if (page == 5) {
+                listOf("전혀 없다", "1~3회", "4회 이상")
+            } else {
+                listOf("전혀 어렵지 않다.", "조금 어렵다.", "매우 어렵다/할 수 없다.")
+            },
+
+            selectedOption = if (answersList[page - 1] == -1) selectedOption else answersList[page - 1],
+            onOptionSelected = {
+                selectedOption = it
+                val a = when(page){
+                    1 -> answers.copy(stAnswers01 = it)
+                    2 -> answers.copy(stAnswers02 = it)
+                    3 -> answers.copy(stAnswers03 = it)
+                    4 -> answers.copy(stAnswers04 = it)
+                    5 -> answers.copy(stAnswers05 = it)
+                    else -> answers
+                }
+                Log.d("selectedOption", "selectedOption : " + selectedOption.toString())
+                Log.d("selectedOption", "page : " + page.toString())
+                Log.d("selectedOption", "Save Answers : " + answers)
+                onUpdateAnswers(a)
+                onNextPage()
+            },
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        if (isLastPage) {
+            Button(
+                onClick = { /*제출하기 버튼*/
+                    if (answers.stAnswers05 == -1){
+                        Toast.makeText(context, "모든 항목에 답변해주세요.", Toast.LENGTH_SHORT).show()
+                    }else {
+                        vm.updateScreeningTestAnswers(answers)
+                        completeAnswers()
                     }
                 },
-                navigationIcon = {
-                    IconButton(onClick = { onBackPage() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        },
-        content = { innerPadding ->
-            Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth(0.6f)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFF15B5B),
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(50)
             ) {
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Text(
-                    text = questions[page - 1],
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp)
-                )
-
-                RadioButtonGroup(
-                    options = if (page == 5) {
-                        listOf("전혀 없다", "1~3회", "4회 이상")
-                    } else {
-                        listOf("전혀 어렵지 않다.", "조금 어렵다.", "매우 어렵다/할 수 없다.")
-                    },
-                    selectedOption = selectedOption,
-                    onOptionSelected = {
-                        selectedOption = it
-                        val a = when(page){
-                            1 -> answers.copy(stAnswers01 = it)
-                            2 -> answers.copy(stAnswers02 = it)
-                            3 -> answers.copy(stAnswers03 = it)
-                            4 -> answers.copy(stAnswers04 = it)
-                            5 -> answers.copy(stAnswers05 = it)
-                            else -> answers
-                        }
-                        Log.d("selectedOption", "selectedOption : " + selectedOption.toString())
-                        Log.d("selectedOption", "page : " + page.toString())
-                        Log.d("selectedOption", "Save Answers : " + answers)
-                        onUpdateAnswers(a)
-                        onNextPage()
-                    },
-                )
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                if (isLastPage) {
-                    Button(
-                        onClick = { /*제출하기 버튼*/
-                            if (answers.stAnswers05 == -1){
-                                Toast.makeText(context, "모든 항목에 답변해주세요.", Toast.LENGTH_SHORT).show()
-                            }else {
-                                vm.updateScreeningTestAnswers(answers)
-                                completeAnswers()
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth(0.6f)
-                            .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFF15B5B),
-                            contentColor = Color.White
-                        ),
-                        shape = RoundedCornerShape(50)
-                    ) {
-                        Text(text = "제출하기", fontSize = 18.sp)
-                    }
-                }
+                Text(text = "제출하기", fontSize = 18.sp)
             }
         }
-    )
+    } //Column
 } //fun ScreeningTestScreen
 
 @Composable

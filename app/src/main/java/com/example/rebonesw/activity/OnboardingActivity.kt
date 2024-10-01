@@ -16,24 +16,9 @@ class OnboardingActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent{
             ReboneSWTheme{
-//                val onboardingStep by vm.OnboardingnavDestination.collectAsState()
-//
-//                when(vm.OnboardingnavDestination.value){
-//                    OnboardingDestination.First -> {
-//                        FirstOnboardingScreen(vm)
-//                    }
-//                    OnboardingDestination.Second -> {
-//
-//                    }
-//                    OnboardingDestination.Last -> {
-//
-//                    }
-//                }
-
                 OnboardingScreen(
                     skipScreenTestInfo = skipScreenTestInfo
                 )
-
             }//ReboneSWTheme
         } //setContent
     } //onCreate

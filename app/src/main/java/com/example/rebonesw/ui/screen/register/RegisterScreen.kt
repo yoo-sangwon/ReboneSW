@@ -185,7 +185,7 @@ fun RegisterScreen(
                                     userState = 0 ,
                                 )
                                 onRegister(registerData)
-                                Toast.makeText(context, "등록 완료", Toast.LENGTH_SHORT).show()
+//                                Toast.makeText(context, "등록 완료", Toast.LENGTH_SHORT).show()
                             } else {
                                 // 값이 비어있는 경우 처리 (예: 토스트 메시지)
                                  Toast.makeText(context, "모든 필드를 채워주세요.", Toast.LENGTH_SHORT).show()

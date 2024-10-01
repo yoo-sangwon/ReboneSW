@@ -1,5 +1,6 @@
 package com.example.rebonesw.ui.screen.onboarding
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,51 +11,56 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
     skipScreenTestInfo: () -> Unit
 ) {
-    var currentScreen by remember { mutableStateOf(1) }
+//    var currentScreen by remember { mutableStateOf(1) }
+    val pagerState = rememberPagerState(pageCount = { 3 }, initialPage = 0)
+    val scope = rememberCoroutineScope() // 코루틴 스코프 선언
+
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        Box(
+        HorizontalPager (
+            state = pagerState,
             modifier = Modifier.fillMaxHeight(0.8f)
                 .padding(8.dp),
-        ) {
-            when (currentScreen) {
-                1 -> FirstOnboardingScreen()
-                2 -> SecondOnboardingScreen()
-                3 -> LastOnboardingScreen()
+        ) { page ->
+            when (page) {
+                0 -> FirstOnboardingScreen()
+                1 -> SecondOnboardingScreen()
+                2 -> LastOnboardingScreen()
             }
-        }
+        } //HorizontalPager
 
         // 페이지 인디케이터 표시
-        PageIndicator(currentPage = currentScreen - 1, totalPages = 3)
+        PageIndicator(currentPage = pagerState.currentPage, totalPages = 3)
 
         Box(
             modifier = Modifier.fillMaxWidth()
                 .padding(top = 32.dp),
             contentAlignment = Alignment.Center // 버튼을 화면 중앙에 정렬
         ) {
-            if(currentScreen < 3){
+            if(pagerState.currentPage < 2){
                 // 1,2 번째 페이지 에서는 하단의 버튼이 생략하기, 다음 으로 노출
                 Row(
                     modifier = Modifier.fillMaxWidth()
@@ -79,7 +85,9 @@ fun OnboardingScreen(
 
                     Button(
                         onClick = {
-                            if (currentScreen < 3) currentScreen += 1
+                            scope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
