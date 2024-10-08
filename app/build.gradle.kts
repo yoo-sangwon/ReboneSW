@@ -85,7 +85,21 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.androidx.hilt.navigation.compose)
+
     //runtime
     implementation(libs.androidx.compose.runtime)
+
+    implementation(libs.tasks.genai)
+    implementation(libs.tasks.core)
+    implementation(libs.tasks.vision)
+
+    //camera
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+    implementation(libs.androidx.camera.video)
 
 }

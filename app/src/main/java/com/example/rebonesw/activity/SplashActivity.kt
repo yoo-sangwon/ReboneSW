@@ -46,7 +46,7 @@ class SplashActivity: ComponentActivity(){
 
     private fun goToMain(){
         vm.registerData?.let{
-            startActivity(Intent(this@SplashActivity, RegisterActivity::class.java))
+            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             finish()
         } ?: run {
             startActivity(Intent(this@SplashActivity, RegisterActivity::class.java))

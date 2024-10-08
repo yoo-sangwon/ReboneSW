@@ -27,15 +27,12 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -52,7 +49,8 @@ fun MainScreen(
     modifier: Modifier,
     vm: MainViewMdoel,
     sumsAnswersData: Int,
-    moveScreenTestInfo: () -> Unit
+    moveScreenTestInfo: () -> Unit,
+    moveScreenCamera: () -> Unit
 ) {
     Log.d("MainScreen", "sumsAnswersData: $sumsAnswersData")
     // 리컴포지셔블 고려해서
@@ -221,22 +219,22 @@ fun MainScreen(
 
         item {
             // 검사 항목 리스트
-            TestItemBox(text = "신속태핑 검사", 0 , 0)
-            TestItemBox(text = "팔 굽히기 검사",1 , state1)
-            TestItemBox(text = "앉았다 일어나기 검사",2 , state2)
-            TestItemBox(text = "한발 서기 검사",3 , 1)
-            TestItemBox(text = "일어서서 걷기 검사",4 , 1)
+            TestItemBox(text = "신속태핑 검사", 0 , 0, moveScreenCamera)
+            TestItemBox(text = "팔 굽히기 검사",1 , state1 ,moveScreenCamera)
+            TestItemBox(text = "앉았다 일어나기 검사",2 , state2 ,moveScreenCamera)
+            TestItemBox(text = "한발 서기 검사",3 , 1 ,moveScreenCamera)
+            TestItemBox(text = "일어서서 걷기 검사",4 , 1, moveScreenCamera)
         }
 
     } //Column
 } //MainScreen
 
 @Composable
-fun TestItemBox(text: String, scareeningtextNumb: Int, state: Int) {
+fun TestItemBox(text: String, scareeningtextNumb: Int, state: Int, moveScreenCamera: () -> Unit ) {
     val context = LocalContext.current
     Box(
         modifier = Modifier
-            .clickable { startTest(text, scareeningtextNumb, context) }
+            .clickable { startTest(scareeningtextNumb, moveScreenCamera) }
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .shadow(4.dp, shape = RoundedCornerShape(8.dp)) // 그림자 추가
@@ -306,7 +304,15 @@ fun TestItemBox(text: String, scareeningtextNumb: Int, state: Int) {
     } //Box
 } //TestItemBox
 
-private fun startTest(text: String, scareeningtextNumb: Int) {}
+private fun startTest(scareeningtextNumb: Int, moveScreenCamera: () -> Unit) {
+    when(scareeningtextNumb){
+        0 -> {}
+        1 -> {}
+        2 -> {moveScreenCamera()}
+        3 -> {}
+        4 -> {}
+    }
+}
 private fun startTest(text: String, scareeningtextNumb: Int, context: Context) {
     Toast.makeText(context, "${text} $scareeningtextNumb 선행 검사를 진행해주세요", Toast.LENGTH_SHORT).show()
 }

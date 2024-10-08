@@ -16,7 +16,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -57,6 +56,10 @@ class MainActivity : ComponentActivity() {
                         sumsAnswersData = sumsAnswersData.stAnswers01 + sumsAnswersData.stAnswers02 + sumsAnswersData.stAnswers03 + sumsAnswersData.stAnswers04 + sumsAnswersData.stAnswers05,
                         moveScreenTestInfo = {
                             startActivity(Intent(this, ScreeningTestActivity::class.java))
+                        }
+                        ,
+                        moveScreenCamera = {
+                            startActivity(Intent(this, CameraActivity::class.java))
                         }
                     )
                 } //Scaffold
